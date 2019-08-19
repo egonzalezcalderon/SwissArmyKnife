@@ -10,24 +10,28 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="NOTES")
-@NamedQuery(name="Note.findAll", query="SELECT n FROM Note n")
 public class NoteEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
 	protected byte[] attachments;
 
+	@Column(nullable=false, length=2147483647)
 	protected String body;
 
+	@Column(nullable=false, length=2147483647)
 	protected String header;
 
+	@Column(nullable=false, length=2147483647)
 	protected String type;
 
 	//bi-directional many-to-one association to Project
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="project_id", nullable=false)
 	protected ProjectEntity project;
 
 	public NoteEntity() {

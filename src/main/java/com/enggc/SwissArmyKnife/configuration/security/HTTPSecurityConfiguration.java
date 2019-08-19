@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 import com.enggc.SwissArmyKnife.configuration.constants.RoleType;
 import com.enggc.SwissArmyKnife.domain.services.AuthenticationService;
@@ -16,7 +15,10 @@ import com.enggc.SwissArmyKnife.domain.services.AuthenticationService;
 public class HTTPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-    protected AccessDeniedHandler accessDeniedHandler;
+    protected HTTPAccessDeniedHandler httpAccessDeniedHandler;
+	
+	@Autowired
+    protected HTTPAccessSuccessHandler httpAccessSuccessHandler;
 	
 	@Autowired
 	protected AuthenticationService authenticationService;
@@ -38,11 +40,11 @@ public class HTTPSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resource/**").hasAnyRole(RoleType.RESOURCE.getName())
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin().loginPage("/login").successHandler(httpAccessSuccessHandler)
                 .and()
-                .logout().permitAll()
+                .logout()
                 .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .exceptionHandling().accessDeniedHandler(httpAccessDeniedHandler);
         http.headers().frameOptions().disable();
     }
 

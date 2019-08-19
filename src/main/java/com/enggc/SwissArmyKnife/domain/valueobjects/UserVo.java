@@ -74,5 +74,12 @@ public class UserVo implements UserDetails {
 		//TODO Agregar cuenta inhabilitada
 		return true;
 	}
+	
+	public boolean hasRole(RoleType role) {
+		for (RoleType roleType : roles)
+			if (roleType == role)
+				return true;
+		return false;
+	}
 
 }

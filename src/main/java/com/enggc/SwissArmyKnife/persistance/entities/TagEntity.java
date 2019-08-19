@@ -11,20 +11,23 @@ import java.util.List;
  */
 @Entity
 @Table(name="TAGS")
-@NamedQuery(name="Tag.findAll", query="SELECT t FROM Tag t")
 public class TagEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
+	@Column(nullable=false, length=2147483647)
 	protected String description;
 
+	@Column(nullable=false, length=2147483647)
 	protected String name;
 
 	//bi-directional many-to-one association to Project
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="project_id", nullable=false)
 	protected ProjectEntity project;
 
 	//bi-directional many-to-one association to Task

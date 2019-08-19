@@ -11,27 +11,26 @@ import java.util.List;
  */
 @Entity
 @Table(name="USERS")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class UserEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
+	@Column(nullable=false, length=2147483647)
 	protected String description;
 
+	@Column(nullable=false, length=2147483647)
 	protected String name;
 
+	@Column(nullable=false, length=2147483647)
 	protected String password;
 
 	//bi-directional many-to-one association to Entry
 	@OneToMany(mappedBy="user")
 	protected List<EntryEntity> entries;
-
-	//bi-directional many-to-one association to WorkDone
-	@OneToMany(mappedBy="user")
-	protected List<WorkDoneEntity> workDones;
 
 	//bi-directional many-to-many association to Project
 	@ManyToMany(mappedBy="users")
@@ -42,13 +41,17 @@ public class UserEntity implements Serializable {
 	@JoinTable(
 		name="USERS_ROLES"
 		, joinColumns={
-			@JoinColumn(name="user_id")
+			@JoinColumn(name="user_id", nullable=false)
 			}
 		, inverseJoinColumns={
-			@JoinColumn(name="role_id")
+			@JoinColumn(name="role_id", nullable=false)
 			}
 		)
 	protected List<RoleEntity> roles;
+
+	//bi-directional many-to-one association to WorkDone
+	@OneToMany(mappedBy="user")
+	protected List<WorkDoneEntity> workDones;
 
 	public UserEntity() {
 	}
@@ -107,6 +110,22 @@ public class UserEntity implements Serializable {
 		return entry;
 	}
 
+	public List<ProjectEntity> getProjects() {
+		return this.projects;
+	}
+
+	public void setProjects(List<ProjectEntity> projects) {
+		this.projects = projects;
+	}
+
+	public List<RoleEntity> getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(List<RoleEntity> roles) {
+		this.roles = roles;
+	}
+
 	public List<WorkDoneEntity> getWorkDones() {
 		return this.workDones;
 	}
@@ -127,22 +146,6 @@ public class UserEntity implements Serializable {
 		workDone.setUser(null);
 
 		return workDone;
-	}
-
-	public List<ProjectEntity> getProjects() {
-		return this.projects;
-	}
-
-	public void setProjects(List<ProjectEntity> projects) {
-		this.projects = projects;
-	}
-
-	public List<RoleEntity> getRoles() {
-		return this.roles;
-	}
-
-	public void setRoles(List<RoleEntity> roles) {
-		this.roles = roles;
 	}
 
 }

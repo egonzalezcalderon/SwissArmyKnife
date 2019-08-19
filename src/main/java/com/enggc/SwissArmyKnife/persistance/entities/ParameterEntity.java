@@ -10,16 +10,18 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="PARAMETERS")
-@NamedQuery(name="Parameter.findAll", query="SELECT p FROM Parameter p")
 public class ParameterEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
+	@Column(nullable=false, length=2147483647)
 	protected String key;
 
+	@Column(nullable=false, length=2147483647)
 	protected String value;
 
 	public ParameterEntity() {

@@ -11,16 +11,18 @@ import java.util.List;
  */
 @Entity
 @Table(name="ROLES")
-@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r")
 public class RoleEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
+	@Column(nullable=false, length=2147483647)
 	protected String description;
 
+	@Column(nullable=false, length=2147483647)
 	protected String name;
 
 	//bi-directional many-to-many association to User

@@ -13,45 +13,42 @@ import java.util.List;
  */
 @Entity
 @Table(name="TASKS")
-@NamedQuery(name="Task.findAll", query="SELECT t FROM Task t")
 public class TaskEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
-	@Column(name="computed_hours")
+	@Column(name="computed_hours", nullable=false, precision=4, scale=2)
 	protected BigDecimal computedHours;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="due_date")
+	@Column(name="due_date", nullable=false)
 	protected Date dueDate;
 
-	@Column(name="estimated_hours")
+	@Column(name="estimated_hours", nullable=false, precision=4, scale=2)
 	protected BigDecimal estimatedHours;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="start_date")
+	@Column(name="start_date", nullable=false)
 	protected Date startDate;
 
 	//bi-directional many-to-one association to Tag
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="tag_id", nullable=false)
 	protected TagEntity tag;
-
-	//bi-directional many-to-one association to WorkDone
-	@OneToMany(mappedBy="task")
-	protected List<WorkDoneEntity> workDones;
 
 	//bi-directional many-to-many association to Task
 	@ManyToMany
 	@JoinTable(
 		name="TASKS_DEPENDENCIES"
 		, joinColumns={
-			@JoinColumn(name="from_task_id")
+			@JoinColumn(name="from_task_id", nullable=false)
 			}
 		, inverseJoinColumns={
-			@JoinColumn(name="to_task_id")
+			@JoinColumn(name="to_task_id", nullable=false)
 			}
 		)
 	protected List<TaskEntity> tasks1;
@@ -59,6 +56,10 @@ public class TaskEntity implements Serializable {
 	//bi-directional many-to-many association to Task
 	@ManyToMany(mappedBy="tasks1")
 	protected List<TaskEntity> tasks2;
+
+	//bi-directional many-to-one association to WorkDone
+	@OneToMany(mappedBy="task")
+	protected List<WorkDoneEntity> workDones;
 
 	public TaskEntity() {
 	}
@@ -111,6 +112,22 @@ public class TaskEntity implements Serializable {
 		this.tag = tag;
 	}
 
+	public List<TaskEntity> getTasks1() {
+		return this.tasks1;
+	}
+
+	public void setTasks1(List<TaskEntity> tasks1) {
+		this.tasks1 = tasks1;
+	}
+
+	public List<TaskEntity> getTasks2() {
+		return this.tasks2;
+	}
+
+	public void setTasks2(List<TaskEntity> tasks2) {
+		this.tasks2 = tasks2;
+	}
+
 	public List<WorkDoneEntity> getWorkDones() {
 		return this.workDones;
 	}
@@ -131,22 +148,6 @@ public class TaskEntity implements Serializable {
 		workDone.setTask(null);
 
 		return workDone;
-	}
-
-	public List<TaskEntity> getTasks1() {
-		return this.tasks1;
-	}
-
-	public void setTasks1(List<TaskEntity> tasks1) {
-		this.tasks1 = tasks1;
-	}
-
-	public List<TaskEntity> getTasks2() {
-		return this.tasks2;
-	}
-
-	public void setTasks2(List<TaskEntity> tasks2) {
-		this.tasks2 = tasks2;
 	}
 
 }

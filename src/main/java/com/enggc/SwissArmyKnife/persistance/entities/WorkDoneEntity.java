@@ -11,28 +11,29 @@ import java.util.Date;
  */
 @Entity
 @Table(name="WORK_DONE")
-@NamedQuery(name="WorkDone.findAll", query="SELECT w FROM WorkDone w")
 public class WorkDoneEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
-	@Column(name="computed_hours")
+	@Column(name="computed_hours", nullable=false, length=2)
 	protected String computedHours;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="start_date")
+	@Column(name="start_date", nullable=false)
 	protected Date startDate;
 
 	//bi-directional many-to-one association to Task
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="task_id", nullable=false)
 	protected TaskEntity task;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="resource_id")
+	@JoinColumn(name="resource_id", nullable=false)
 	protected UserEntity user;
 
 	public WorkDoneEntity() {

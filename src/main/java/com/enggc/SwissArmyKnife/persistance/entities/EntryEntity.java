@@ -11,23 +11,24 @@ import java.util.Date;
  */
 @Entity
 @Table(name="ENTRIES")
-@NamedQuery(name="Entry.findAll", query="SELECT e FROM Entry e")
 public class EntryEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="checkin_date")
+	@Column(name="checkin_date", nullable=false)
 	protected Date checkinDate;
 
-	@Column(name="checkout_date")
+	@Column(name="checkout_date", length=2147483647)
 	protected String checkoutDate;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id", nullable=false)
 	protected UserEntity user;
 
 	public EntryEntity() {

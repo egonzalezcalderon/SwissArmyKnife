@@ -11,37 +11,40 @@ import java.util.List;
  */
 @Entity
 @Table(name="PROJECTS")
-@NamedQuery(name="Project.findAll", query="SELECT p FROM Project p")
 public class ProjectEntity implements Serializable {
 	protected static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	protected Integer id;
 
+	@Column(nullable=false, length=2147483647)
 	protected String name;
+	
+	@Column(nullable=false, length=2147483647)
+	protected String description;
 
 	//bi-directional many-to-one association to Note
 	@OneToMany(mappedBy="project")
 	protected List<NoteEntity> notes;
-
-	//bi-directional many-to-one association to Tag
-	@OneToMany(mappedBy="project")
-	protected List<TagEntity> tags;
 
 	//bi-directional many-to-many association to User
 	@ManyToMany
 	@JoinTable(
 		name="RESOURCES"
 		, joinColumns={
-			@JoinColumn(name="id", referencedColumnName="description"),
-			@JoinColumn(name="project_id")
+			@JoinColumn(name="project_id", nullable=false)
 			}
 		, inverseJoinColumns={
-			@JoinColumn(name="user_id")
+			@JoinColumn(name="user_id", nullable=false)
 			}
 		)
 	protected List<UserEntity> users;
+
+	//bi-directional many-to-one association to Tag
+	@OneToMany(mappedBy="project")
+	protected List<TagEntity> tags;
 
 	public ProjectEntity() {
 	}
@@ -84,6 +87,14 @@ public class ProjectEntity implements Serializable {
 		return note;
 	}
 
+	public List<UserEntity> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
+	}
+
 	public List<TagEntity> getTags() {
 		return this.tags;
 	}
@@ -106,12 +117,12 @@ public class ProjectEntity implements Serializable {
 		return tag;
 	}
 
-	public List<UserEntity> getUsers() {
-		return this.users;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setUsers(List<UserEntity> users) {
-		this.users = users;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-
+	
 }
