@@ -17,9 +17,6 @@ import lombok.Setter;
 @Setter
 public class UserVo implements UserDetails {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	protected String name;
@@ -28,14 +25,14 @@ public class UserVo implements UserDetails {
 	
 	protected String description;
 	
-	protected List<RoleType> roles = new ArrayList<RoleType>();
+	protected List<RoleType> assignedRoles = new ArrayList<RoleType>();
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
-		for (RoleType role : roles) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
+		for (RoleType assignedRole : assignedRoles) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_"+assignedRole.getName()));
 		}
 		
 		return authorities;
@@ -76,7 +73,7 @@ public class UserVo implements UserDetails {
 	}
 	
 	public boolean hasRole(RoleType role) {
-		for (RoleType roleType : roles)
+		for (RoleType roleType : assignedRoles)
 			if (roleType == role)
 				return true;
 		return false;

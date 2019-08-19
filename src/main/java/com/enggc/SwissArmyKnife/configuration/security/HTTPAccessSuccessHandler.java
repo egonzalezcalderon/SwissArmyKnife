@@ -22,14 +22,15 @@ public class HTTPAccessSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		UserVo logedUser = (UserVo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		response.sendRedirect(request.getContextPath() + "/error");
+		String redirection = request.getContextPath() + "/error";
 		if (logedUser.hasRole(RoleType.ADMINISTRATOR)) {
-			response.sendRedirect(request.getContextPath() + "/admin/home");
+			redirection = request.getContextPath() + "/admin/home";
 		} else if (logedUser.hasRole(RoleType.PROJECT_MANAGER)) {
-			response.sendRedirect(request.getContextPath() + "/pm/home");			
+			redirection = request.getContextPath() + "/pm/home";			
 		} else if (logedUser.hasRole(RoleType.RESOURCE)) {
-			response.sendRedirect(request.getContextPath() + "/resource/home");			
+			redirection = request.getContextPath() + "/resource/home";			
 		}
+		response.sendRedirect(redirection);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.enggc.SwissArmyKnife.domain.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.enggc.SwissArmyKnife.configuration.constants.RoleType;
 import com.enggc.SwissArmyKnife.domain.errors.DomainErrorMessages;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class AuthenticationService implements UserDetailsService {
@@ -29,7 +31,11 @@ public class AuthenticationService implements UserDetailsService {
 	@Autowired
 	protected MappingTool mappingTool;
 	
+	@Autowired
+	protected PasswordEncoder passwordEncoder;
+	
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		UserEntity user = userRepository.getUserByName(username);
@@ -43,8 +49,10 @@ public class AuthenticationService implements UserDetailsService {
 		List<RoleEntity> roles = user.getRoles();
 		
 		for (RoleEntity role : roles) {
-			userVo.getRoles().add(RoleType.fromName(role.getName()));
+			userVo.getAssignedRoles().add(RoleType.fromName(role.getName()));
 		}
+		
+		userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
 		
 		return userVo;
 	}

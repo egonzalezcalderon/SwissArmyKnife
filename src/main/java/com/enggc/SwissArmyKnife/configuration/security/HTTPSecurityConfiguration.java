@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.enggc.SwissArmyKnife.configuration.constants.RoleType;
 import com.enggc.SwissArmyKnife.domain.services.AuthenticationService;
@@ -23,6 +24,9 @@ public class HTTPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	protected AuthenticationService authenticationService;
 	
+	@Autowired
+	protected PasswordEncoder passwordEncoder;
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -35,14 +39,15 @@ public class HTTPSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/parsley/**").permitAll()
                 .antMatchers("/premonish/**").permitAll()
+                .antMatchers("/error").permitAll()
                 .antMatchers("/admin/**").hasAnyRole(RoleType.ADMINISTRATOR.getName())
                 .antMatchers("/pm/**").hasAnyRole(RoleType.PROJECT_MANAGER.getName())
                 .antMatchers("/resource/**").hasAnyRole(RoleType.RESOURCE.getName())
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").successHandler(httpAccessSuccessHandler)
+                .formLogin().loginPage("/login").successHandler(httpAccessSuccessHandler).permitAll()
                 .and()
-                .logout()
+                .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedHandler(httpAccessDeniedHandler);
         http.headers().frameOptions().disable();
@@ -50,7 +55,7 @@ public class HTTPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.userDetailsService(authenticationService);
+    	auth.userDetailsService(authenticationService).passwordEncoder(passwordEncoder);
     	
 //    	auth.inMemoryAuthentication()
 //                .withUser(RoleType.ADMINISTRATOR.getName()).password("inicio").roles("MAINTENANCE")
