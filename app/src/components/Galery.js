@@ -6,7 +6,12 @@ import Table from "./Table";
 import Tablerow from "./Tablerow";
 import Grid from "./Grid";
 import Form from "./Form";
-import TextInput from "./TextInput";
+import Formgrid from "./Formgrid";
+import Textinput from "./Textinput";
+import Comboinput from "./Comboinput";
+import Checkinput from "./Checkinput";
+import Radioinput from "./Radioinput";
+import Textareainput from "./Textareainput";
 
 class Galery extends Component {
     constructor(props) {
@@ -53,19 +58,20 @@ class Galery extends Component {
                 </Card>  
                 <Separator size="1"/>
                 <Card text="Formularios">
-                    <Form device="desktop" phone="2" tablet="3" smalldesktop="4" desktop="6" spacing="2">
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
-                        <TextInput type="text" label="Nombre" text="Ingresar Nombre"/>
+                    <Form>
+                        <Formgrid device="desktop" phone="2" tablet="3" smalldesktop="4" desktop="4" spacing="2">
+                            <Textinput type="text" label="Usuario" text="Ingresar Usuario"/>
+                            <Textinput type="password" label="Contraseña" text="Ingresar Contraseña"/>
+                            <Textinput type="email" label="Mail" text="Ingresar Mail"/>
+                            <Comboinput label="Provincia" options={["CABA", "Cordoba", "Santa Fe", "Mendoza"]}/>
+                            <Checkinput label="Casado" text="Estoy Casado"/>
+                            <Checkinput label="Recibido" text="Estoy Recibido"/>
+                            <Radioinput label="Hombre" group="Sexo" text="Soy Hombre"/>
+                            <Radioinput label="Mujer"  group="Sexo" text="Soy Mujer"/>
+                        </Formgrid>
+                        <Formgrid device="desktop" phone="1" tablet="1" smalldesktop="1" desktop="1">
+                            <Textareainput label="Nota" text="Ingresar Cuerpo de la Nota" size="20"/>
+                        </Formgrid>
                     </Form>
                 </Card>           
             </div>
