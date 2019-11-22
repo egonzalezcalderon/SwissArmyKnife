@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Comboinput extends Component {
+class Listinput extends Component {
     constructor(props) {
         super(props);
     }
@@ -14,8 +14,8 @@ class Comboinput extends Component {
             optionIndex++;    
         }
 
-        return (<><label for={this.props.label}>{this.props.label}</label><select className={"form-control custom-select"} id={this.props.label}>{options}</select></>);
+        return (<><label for={this.props.label}>{this.props.label}</label><select multiple size={this.props.size} className="form-control custom-select" id={this.props.label}>{options}</select></>);
     }
 }
 
-export default Comboinput;
+export default Listinput;

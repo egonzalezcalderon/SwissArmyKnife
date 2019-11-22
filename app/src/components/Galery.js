@@ -12,6 +12,9 @@ import Comboinput from "./Comboinput";
 import Checkinput from "./Checkinput";
 import Radioinput from "./Radioinput";
 import Textareainput from "./Textareainput";
+import Listinput from './Listinput';
+import Filebrowserinput from './Filebrowserinput';
+import Rangeinput from './Rangeinput';
 
 class Galery extends Component {
     constructor(props) {
@@ -68,9 +71,15 @@ class Galery extends Component {
                             <Checkinput label="Recibido" text="Estoy Recibido"/>
                             <Radioinput label="Hombre" group="Sexo" text="Soy Hombre"/>
                             <Radioinput label="Mujer"  group="Sexo" text="Soy Mujer"/>
+                            <Filebrowserinput label="foto" text="Elegir Foto"/>
+                            <Listinput label="Nacionalidades" options={["Argentina", "Estados Unidos", "Italia", "España", "Francia"]} size="2"/>
+                            <Rangeinput label="Edad" text="Edad" min="1" max="100" step="1"/> 
                         </Formgrid>
                         <Formgrid device="desktop" phone="1" tablet="1" smalldesktop="1" desktop="1">
-                            <Textareainput label="Nota" text="Ingresar Cuerpo de la Nota" size="20"/>
+                            <Textareainput label="Nota" text="Ingresar Cuerpo de la Nota" size="5"/>
+                        </Formgrid>
+                        <Formgrid device="desktop" phone="1" tablet="1" smalldesktop="1" desktop="1">
+                            <Button text="Subir" color="red" icon="fas fa-caret-square-right" />   
                         </Formgrid>
                     </Form>
                 </Card>           
