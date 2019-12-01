@@ -6,7 +6,7 @@ class Filebrowserinput extends Component {
     }
 
     render() {
-        return (<div className="custom-file"><input type="file" className="custom-file-input" id={this.props.label} lang="es"/><label className="custom-file-label" for={this.props.label}>{this.props.text}</label></div>);
+        return (<div className="custom-file"><input type="file" className="custom-file-input" id={this.props.name} lang="es"/><label id={this.props.name+"label"} className="custom-file-label" for={this.props.name}>{this.props.text}</label></div>);
     }
 }
 

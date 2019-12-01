@@ -55,7 +55,7 @@ class Body extends Component {
                                         <Menu/>   
                                     </div>
                                     <div className="col-2">
-                                        <Button onClick={this.showOrHideMenu} text="" color="red" icon="fas fa-caret-square-left" />   
+                                        <Button click={this.showOrHideMenu} text="" color="red" icon="fas fa-caret-square-left" />   
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@ class Body extends Component {
                     <div className="row fillScreen">
                         <div className="col-xs-1">
                             <div className="sticky-top">
-                                <Button onClick={this.showOrHideMenu} text="" color="red" icon="fas fa-caret-square-left" />       
+                                <Button click={this.showOrHideMenu} text="" color="red" icon="fas fa-caret-square-left" />       
                             </div>
                         </div> 
                         <div className="col-11">

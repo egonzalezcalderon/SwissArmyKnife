@@ -6,7 +6,7 @@ class Checkinput extends Component {
     }
 
     render() {
-        return (<div className="custom-control custom-checkbox"><input type="checkbox" className="custom-control-input" id={this.props.label}/><label className="custom-control-label" for={this.props.label}>{this.props.text}</label></div>);
+        return (<div className="custom-control custom-checkbox"><input type="checkbox" className="custom-control-input" id={this.props.name}/><label className="custom-control-label" for={this.props.name}>{this.props.text}</label></div>);
     }
 }
 

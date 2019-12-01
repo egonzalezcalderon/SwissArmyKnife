@@ -32,7 +32,7 @@ class Button extends Component {
     }
 
     render() {
-        return (<button type="submit" onClick={this.props.onClick} className={"btn "+this.color()}><i className={this.props.icon}></i>{(this.props.text)?" "+this.props.text:""}</button>);
+        return (<button type="submit" onClick={this.props.click} className={"btn "+this.color()}><i className={this.props.icon}></i>{(this.props.text)?" "+this.props.text:""}</button>);
     }
 }
 

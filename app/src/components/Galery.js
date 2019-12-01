@@ -19,9 +19,78 @@ import Rangeinput from './Rangeinput';
 class Galery extends Component {
     constructor(props) {
         super(props);
+        this.subir = this.subir.bind(this);
+        this.removeRow = this.removeRow.bind(this);
+        this.addRow = this.addRow.bind(this);
+        this.state = {
+            rows: [],
+            usuario: null,
+            password: null,
+            mail: null,
+            provincia: null,
+            casado: null,
+            recibido: null,
+            hombre: null,
+            mujer: null,
+            foto: null,
+            nacionalidades: null,
+            edad: null,
+            nota: null
+        };
+        this.state.rows[this.state.rows.length] = {"Usuario": "Mariana","Mail": "mariana.priano.uba@gmail.com","Provincia": "CABA"};
+        this.state.rows[this.state.rows.length] = {"Usuario": "Eduardo","Mail": "ing.egonzalezcalderon@gmail.com","Provincia": "Buenos Aires"};
+    }
+
+    subir(event) {
+        event.preventDefault();
+        this.setState({
+            usuario: event.target.usuario.value,
+            password: event.target.password.value,
+            mail: event.target.mail.value,
+            provincia: event.target.provincia.value,
+            casado: event.target.casado.checked,
+            recibido: event.target.recibido.checked,
+            hombre: event.target.hombre.checked,
+            mujer: event.target.mujer.checked,
+            foto: event.target.foto.value,
+            nacionalidades: event.target.nacionalidades.value,
+            edad: event.target.edad.value,
+            nota: event.target.nota.value 
+        });
+        this.addRow(event);
+    }
+
+    addRow(event) {
+        let row = {};
+
+        row.Usuario = event.target.usuario.value;
+        row.Mail = event.target.mail.value;
+        row.Provincia = event.target.provincia.value;
+        
+        console.log(row);
+
+        this.state.rows[this.state.rows.length] = row;
+    }
+
+    removeRow(event, index) {
+        event.preventDefault();
+        let rows = [...this.state.rows];
+        rows.splice(index, 1);
+        this.setState({rows: rows});
     }
 
     render() {
+
+        let renderRows = null;
+
+        for (let i = 0; i < this.state.rows.length; i++) {
+            renderRows = [renderRows,
+            <Tablerow color="light" content={this.state.rows[i]}>
+                <Button color="navy" icon="fas fa-edit"/>
+                <Button color="red" icon="fas fa-trash-alt" click={(event) => this.removeRow(event, i)}/>
+            </Tablerow>];
+        }
+
         return (
             <div>   
                 <Separator size="1"/>
@@ -48,41 +117,35 @@ class Galery extends Component {
                 <Separator size="1"/>
                 <Card text="Tablas">
                     <Table>
-                        <Tablerow color="gray" header content={{"Nombre": "Mariana","Apellido": "Priano","DNI": 35142062, "Modificar": "", "Eliminar": ""}}/>
-                        <Tablerow color="red" content={{"Nombre": "Mariana","Apellido": "Priano","DNI": 35142062}}>
-                            <Button color="navy" icon="fas fa-edit" />
-                            <Button color="red" icon="fas fa-trash-alt" />
-                        </Tablerow>
-                        <Tablerow color="blue" content={{"Nombre": "Eduardo","Apellido": "Gonzalez Calderon","DNI": 34674495}}>
-                            <Button color="navy" icon="fas fa-edit" />
-                            <Button color="red" icon="fas fa-trash-alt" />                            
-                        </Tablerow>
+                        <Tablerow color="navy" header content={this.state.rows[0]}/>
+                        {renderRows}
                     </Table>
                 </Card>  
                 <Separator size="1"/>
                 <Card text="Formularios">
-                    <Form>
+                    <Form submit={this.subir}>
                         <Formgrid device="desktop" phone="2" tablet="3" smalldesktop="4" desktop="4" spacing="2">
-                            <Textinput type="text" label="Usuario" text="Ingresar Usuario"/>
-                            <Textinput type="password" label="Contraseña" text="Ingresar Contraseña"/>
-                            <Textinput type="email" label="Mail" text="Ingresar Mail"/>
-                            <Comboinput label="Provincia" options={["CABA", "Cordoba", "Santa Fe", "Mendoza"]}/>
-                            <Checkinput label="Casado" text="Estoy Casado"/>
-                            <Checkinput label="Recibido" text="Estoy Recibido"/>
-                            <Radioinput label="Hombre" group="Sexo" text="Soy Hombre"/>
-                            <Radioinput label="Mujer"  group="Sexo" text="Soy Mujer"/>
-                            <Filebrowserinput label="foto" text="Elegir Foto"/>
-                            <Listinput label="Nacionalidades" options={["Argentina", "Estados Unidos", "Italia", "España", "Francia"]} size="2"/>
-                            <Rangeinput label="Edad" text="Edad" min="1" max="100" step="1"/> 
+                            <Textinput type="text" name="usuario" text="Ingresar Usuario"/>
+                            <Textinput type="password" name="password" text="Ingresar Contraseña"/>
+                            <Textinput type="email" name="mail" text="Ingresar Mail"/>
+                            <Comboinput name="provincia" options={["CABA", "Cordoba", "Santa Fe", "Mendoza"]}/>
+                            <Checkinput name="casado" text="Estoy Casado"/>
+                            <Checkinput name="recibido" text="Estoy Recibido"/>
+                            <Radioinput name="hombre" group="sexo" text="Soy Hombre"/>
+                            <Radioinput name="mujer"  group="sexo" text="Soy Mujer"/>
+                            <Filebrowserinput name="foto" text="Elegir Foto"/>
+                            <Listinput name="nacionalidades" options={["Argentina", "Estados Unidos", "Italia", "España", "Francia"]} size="2"/>
+                            <Rangeinput name="edad" min="1" max="100" step="1"/> 
                         </Formgrid>
                         <Formgrid device="desktop" phone="1" tablet="1" smalldesktop="1" desktop="1">
-                            <Textareainput label="Nota" text="Ingresar Cuerpo de la Nota" size="5"/>
+                            <Textareainput name="nota" text="Ingresar Cuerpo de la Nota" size="5" value={this.state.inputs}/>
                         </Formgrid>
                         <Formgrid device="desktop" phone="1" tablet="1" smalldesktop="1" desktop="1">
                             <Button text="Subir" color="red" icon="fas fa-caret-square-right" />   
                         </Formgrid>
                     </Form>
-                </Card>           
+                </Card>     
+                <Separator size="10"/>      
             </div>
         );
     }

@@ -5,6 +5,10 @@ class Listinput extends Component {
         super(props);
     }
 
+    label() {
+        return this.props.name[0].toUpperCase() + this.props.name.slice(1);
+    }
+
     render() {
         let options = [];
         let optionIndex = 0;
@@ -14,7 +18,7 @@ class Listinput extends Component {
             optionIndex++;    
         }
 
-        return (<><label for={this.props.label}>{this.props.label}</label><select multiple size={this.props.size} className="form-control custom-select" id={this.props.label}>{options}</select></>);
+        return (<><label for={this.props.name}>{this.label()}</label><select multiple size={this.props.size} className="form-control custom-select" id={this.props.name}>{options}</select></>);
     }
 }
 
